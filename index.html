@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Люме — цветочная мастерская</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2a23; --ink-2:#24362d; --ivory:#f6f0e7; --sand:#ece2d3;
+  --gold:#b08d57; --gold-l:#d6b982; --text:#2b2a26; --muted:#7a6f60;
+  --ease:cubic-bezier(.19,.8,.24,1);
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ivory);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px)}
+a{color:inherit;text-decoration:none}
+svg{display:block;max-width:100%}
+::selection{background:var(--gold-l);color:var(--ink)}
+
+/* ---------- Button ---------- */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:12px;padding:15px 34px;
+  border:1px solid var(--gold);color:var(--ivory);background:transparent;font:400 12.5px var(--sans);
+  letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;border-radius:999px;
+  transition:color .5s var(--ease),transform .5s var(--ease),box-shadow .5s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateY(101%);
+  transition:transform .6s var(--ease);z-index:-1}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg)}
+.btn{z-index:0}
+.btn:hover{color:var(--ink);transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(176,141,87,.7)}
+.btn:hover::before{transform:translateY(0)}
+.btn:hover::after{left:130%;transition:left .9s var(--ease)}
+.btn svg{width:15px;height:15px;transition:transform .5s var(--ease)}
+.btn:hover svg{transform:translateX(5px)}
+.btn.dark{color:var(--ink)}
+.btn.dark:hover{color:var(--ivory)}
+.btn.dark::before{background:var(--ink)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--gold-l);outline-offset:4px}
+
+/* ---------- Logo ---------- */
+.logo{display:flex;align-items:center;gap:14px;color:var(--gold-l)}
+.logo .mark{width:46px;height:46px;flex-shrink:0;transition:transform 1s var(--ease)}
+.logo:hover .mark{transform:rotate(90deg)}
+.logo .mark :is(path,circle){fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.logo .mark .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s var(--ease) forwards}
+.logo .mark .draw:nth-child(2){animation-delay:.25s}.logo .mark .draw:nth-child(3){animation-delay:.5s}
+.logo .mark .draw:nth-child(4){animation-delay:.7s}.logo .mark .draw:nth-child(5){animation-delay:.85s}
+.logo .mark .draw:nth-child(6){animation-delay:1s}.logo .mark .draw:nth-child(7){animation-delay:1.1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.logo .txt{display:flex;flex-direction:column;line-height:1}
+.logo .word{font:500 25px var(--serif);letter-spacing:.42em;margin-right:-.42em;color:var(--ivory);transition:color .5s}
+.logo .sub{font:400 8.5px var(--sans);letter-spacing:.38em;margin-top:7px;color:var(--gold-l)}
+
+/* ---------- Header ---------- */
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;display:flex;align-items:center;
+  justify-content:space-between;gap:24px;padding:26px 56px;color:var(--ivory);
+  transition:background .6s var(--ease),padding .6s var(--ease),box-shadow .6s,color .6s;
+  animation:hdr 1.2s var(--ease) both}
+@keyframes hdr{from{opacity:0;transform:translateY(-20px)}}
+header.scrolled{background:rgba(27,42,35,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding:14px 56px;box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
+.hright{display:flex;align-items:center;gap:40px}
+.meta{display:flex;align-items:center;gap:32px;font-size:13px;letter-spacing:.06em}
+.meta .it{display:flex;align-items:center;gap:10px;color:rgba(246,240,231,.85)}
+.meta svg{width:15px;height:15px;stroke:var(--gold-l);fill:none;stroke-width:1.3}
+.meta a.it:hover{color:var(--gold-l)}
+.meta .sep{width:1px;height:26px;background:rgba(214,185,130,.35)}
+header .btn{padding:12px 28px}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;background:radial-gradient(ellipse at 70% 40%,var(--ink-2),var(--ink) 70%);
+  color:var(--ivory);display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px;padding:140px 56px 90px;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:24px;border:1px solid rgba(214,185,130,.18);pointer-events:none}
+.eyebrow{font:400 11.5px var(--sans);letter-spacing:.5em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:18px;margin-bottom:34px}
+.eyebrow::before{content:"";width:56px;height:1px;background:var(--gold);transform-origin:left;animation:grow 1.4s .5s var(--ease) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.hero h1{font:500 clamp(48px,7.2vw,112px)/1 var(--serif);letter-spacing:-.01em}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.12em}
+.hero h1 .ln span{display:block;transform:translateY(115%);animation:up 1.5s var(--ease) forwards}
+.hero h1 .ln:nth-child(2) span{animation-delay:.18s;font-style:italic;color:var(--gold-l)}
+@keyframes up{to{transform:none}}
+.hero p.lead{margin:34px 0 44px;max-width:430px;font-size:16.5px;color:rgba(246,240,231,.72);animation:fade 1.4s .9s var(--ease) both}
+.hero .btn{animation:fade 1.4s 1.1s var(--ease) both}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}}
+.emblem{position:relative;display:grid;place-items:center;animation:fade 2s .4s both}
+.emblem .ring{position:absolute;width:min(480px,92%);aspect-ratio:1;border-radius:50%;border:1px solid rgba(214,185,130,.35);animation:spin 60s linear infinite}
+.emblem .ring.r2{width:min(380px,74%);border-style:dashed;border-color:rgba(214,185,130,.2);animation-direction:reverse;animation-duration:80s}
+.emblem .ring::after{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--gold-l);box-shadow:0 0 18px var(--gold-l)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.emblem .big{width:min(240px,50%);color:var(--gold-l);transform:translateY(var(--py,0));filter:drop-shadow(0 0 30px rgba(214,185,130,.25))}
+.emblem .big :is(path,circle){fill:none;stroke:currentColor;stroke-width:.7;stroke-linecap:round;stroke-linejoin:round}
+.emblem .big .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3s .6s var(--ease) forwards}
+.scroll{position:absolute;left:56px;bottom:46px;font:400 10px var(--sans);letter-spacing:.4em;color:var(--gold-l);display:flex;align-items:center;gap:16px;z-index:2}
+.scroll i{width:1px;height:46px;background:linear-gradient(var(--gold-l),transparent);animation:pulse 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes pulse{50%{transform:scaleY(.35);opacity:.5}}
+.petal{position:absolute;top:-40px;width:14px;height:20px;border-radius:0 100% 0 100%;opacity:0;pointer-events:none;
+  background:linear-gradient(135deg,var(--gold-l),rgba(214,185,130,.2));animation:fall linear infinite}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}10%{opacity:.55}90%{opacity:.3}
+  100%{transform:translate3d(var(--dx),110vh,0) rotate(540deg);opacity:0}}
+
+/* ---------- Language of flowers ---------- */
+.lang{background:#16221c;color:var(--ivory);padding:130px 56px 120px;border-top:1px solid rgba(214,185,130,.2)}
+.lhead{max-width:1280px;margin:0 auto 64px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.lhead .eyebrow{margin-bottom:26px}
+.lhead h2{font:500 clamp(34px,4.8vw,66px)/1.08 var(--serif);max-width:11em}
+.lhead h2 em{color:var(--gold-l)}
+.lhead p{max-width:340px;color:rgba(246,240,231,.6);font-size:15px}
+.panels{display:flex;gap:14px;max-width:1280px;margin:0 auto;height:540px}
+.pn{position:relative;flex:1;border:1px solid rgba(214,185,130,.22);background:linear-gradient(170deg,var(--c1),var(--c2));color:inherit;
+  cursor:pointer;overflow:hidden;border-radius:999px 999px 0 0;font:inherit;text-align:center;opacity:0;transform:translateY(46px);
+  transition:flex .9s var(--ease),height .9s var(--ease),opacity 1.2s var(--ease) var(--d,0s),transform 1.2s var(--ease) var(--d,0s),border-color .5s}
+.lang.in .pn{opacity:1;transform:none}
+.pn.on{flex:3.6;border-color:rgba(214,185,130,.55)}
+.pn::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.16),transparent 55%);pointer-events:none}
+.pn .ic{position:absolute;top:84px;left:50%;width:46px;height:46px;transform:translateX(-50%);stroke:var(--gold-l);fill:none;stroke-width:1.1;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .9s var(--ease)}
+.pn.on .ic{transform:translateX(-50%) scale(1.7) rotate(8deg)}
+.vname{position:absolute;left:50%;bottom:36px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;font:italic 500 30px var(--serif);
+  letter-spacing:.1em;white-space:nowrap;transition:opacity .4s}
+.pn.on .vname{opacity:0}
+.pbody{position:absolute;left:0;right:0;bottom:0;padding:0 44px 46px;opacity:0;transform:translateY(26px);pointer-events:none;
+  transition:opacity .5s,transform .7s var(--ease)}
+.pn.on .pbody{opacity:1;transform:none;transition:opacity .8s .4s,transform 1s .4s var(--ease)}
+.pbody small{display:block;font:400 11px var(--sans);letter-spacing:.4em;color:var(--gold-l);margin-bottom:12px}
+.pbody h3{font:500 44px/1.05 var(--serif);margin-bottom:8px}
+.pbody b{display:block;font:italic 400 21px var(--serif);color:var(--gold-l);margin-bottom:16px;font-weight:400}
+.pbody p{max-width:360px;margin:0 auto;font-size:15px;color:rgba(246,240,231,.78)}
+@media(max-width:900px){
+  .lang{padding:90px 22px}.lhead{flex-direction:column;align-items:flex-start;gap:20px}
+  .panels{flex-direction:column;height:auto}
+  .pn{flex:none;height:92px;border-radius:30px 30px 0 0;text-align:left}.pn.on{flex:none;height:380px}
+  .pn .ic{top:23px;left:26px;transform:none}.pn.on .ic{transform:scale(1.25);transform-origin:left top}
+  .vname{writing-mode:horizontal-tb;transform:none;left:92px;bottom:auto;top:30px;font-size:26px}
+  .pbody{padding:0 26px 30px}.pbody h3{font-size:34px}.pbody p{margin:0;max-width:none}
+}
+
+/* ---------- Features ---------- */
+.feature{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:90px;max-width:1280px;margin:0 auto;padding:140px 56px}
+.feature.alt{direction:rtl}.feature.alt>*{direction:ltr}
+.band{background:var(--sand)}
+.art{position:relative;justify-self:center;width:min(100%,430px);aspect-ratio:3/4}
+.art::before{content:"";position:absolute;inset:-18px;border:1px solid var(--gold);border-radius:999px 999px 0 0;opacity:0;
+  transform:scale(.94);transition:opacity 1.4s .5s var(--ease),transform 1.6s .5s var(--ease)}
+.arch{position:absolute;inset:0;border-radius:999px 999px 0 0;overflow:hidden;clip-path:inset(100% 0 0 0);
+  transition:clip-path 1.6s var(--ease)}
+.arch svg{position:absolute;left:7%;bottom:0;width:86%;height:auto;transform:translateY(var(--py,0)) scale(1.12);
+  transition:transform 2s var(--ease);animation:sway 7s ease-in-out infinite;transform-origin:50% 100%}
+.arch::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.4) 50%,transparent 62%);transform:translateX(-130%);pointer-events:none}
+.in .arch::after{transform:translateX(130%);transition:transform 2.4s 1.1s var(--ease)}
+.in .art::before{opacity:1;transform:none}
+.in .arch{clip-path:inset(0)}
+.in .arch svg{transform:translateY(var(--py,0)) scale(1)}
+@keyframes sway{50%{rotate:1.6deg}}
+.a1{background:linear-gradient(180deg,#f3d9d3,#e8bfb6)}
+.a2{background:linear-gradient(180deg,#e3e6d3,#c9d1b4)}
+.a3{background:linear-gradient(180deg,#f7efe2,#e6d6bb)}
+.num{font:italic 400 18px var(--serif);color:var(--gold);letter-spacing:.2em;margin-bottom:22px}
+.rule{width:80px;height:1px;background:var(--gold);margin-bottom:34px;transform:scaleX(0);transform-origin:left;transition:transform 1.4s .4s var(--ease)}
+.feature h2{font:500 clamp(30px,3.4vw,46px)/1.22 var(--serif);color:var(--ink);max-width:15em}
+.feature h2 em{color:var(--gold);font-style:italic}
+.feature .btn{margin-top:42px}
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1.3s var(--ease),transform 1.3s var(--ease)}
+.in .rv{opacity:1;transform:none}
+.in .rv.d1{transition-delay:.25s}.in .rv.d2{transition-delay:.45s}.in .rv.d3{transition-delay:.65s}
+.in .rule{transform:scaleX(1)}
+
+/* ---------- Footer ---------- */
+footer{background:var(--ink);color:var(--ivory);position:relative;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+.cta{text-align:center;padding:130px 24px 100px;border-bottom:1px solid rgba(214,185,130,.2)}
+.cta h3{font:500 clamp(34px,5vw,68px)/1.1 var(--serif);max-width:14em;margin:0 auto 22px}
+.cta h3 em{color:var(--gold-l)}
+.cta p{max-width:460px;margin:0 auto 42px;color:rgba(246,240,231,.65);font-size:15.5px}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:50px;max-width:1280px;margin:0 auto;padding:80px 56px 60px}
+.fcol h4{font:400 10.5px var(--sans);letter-spacing:.38em;text-transform:uppercase;color:var(--gold-l);margin-bottom:20px}
+.fcol p,.fcol a{font-size:15px;color:rgba(246,240,231,.8);display:block}
+.fcol a:hover{color:var(--gold-l)}
+.fcol .tag{font:italic 400 20px var(--serif);color:rgba(246,240,231,.6);margin-top:22px}
+.fbot{max-width:1280px;margin:0 auto;padding:26px 56px 34px;border-top:1px solid rgba(214,185,130,.15);
+  display:flex;justify-content:space-between;gap:20px;font-size:12px;letter-spacing:.14em;color:rgba(246,240,231,.45)}
+.fbig{position:absolute;left:50%;bottom:-.28em;transform:translateX(-50%);font:500 clamp(120px,24vw,340px)/1 var(--serif);
+  letter-spacing:.1em;color:rgba(214,185,130,.05);pointer-events:none;white-space:nowrap}
+footer .stag{opacity:0;transform:translateY(26px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+footer.in .stag{opacity:1;transform:none}
+footer.in .stag:nth-child(2){transition-delay:.15s}footer.in .stag:nth-child(3){transition-delay:.3s}footer.in .stag:nth-child(4){transition-delay:.45s}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1080px){.meta .hours{display:none}.meta .sep{display:none}}
+@media(max-width:900px){
+  header,header.scrolled{padding:16px 22px}
+  .hero{grid-template-columns:1fr;padding:130px 28px 110px;text-align:left}
+  .emblem{order:-1;margin-bottom:-20px}.emblem .ring{width:min(320px,80%)}.emblem .ring.r2{width:min(250px,62%)}
+  .scroll{left:28px}.hero::after{inset:12px}
+  .feature,.feature.alt{grid-template-columns:1fr;gap:64px;padding:90px 28px;direction:ltr}
+  .art{width:min(86%,360px)}
+  .fgrid{grid-template-columns:1fr 1fr;padding:60px 28px 40px}
+  .fbot{padding:22px 28px;flex-direction:column}
+}
+@media(max-width:560px){.meta{display:none}.logo .word{font-size:21px}.logo .sub{font-size:7.5px}.fgrid{grid-template-columns:1fr}
+  header .btn{padding:11px 20px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .hero h1 .ln span,.rv,footer .stag,.pn{transform:none!important;opacity:1!important}
+  .arch{clip-path:none!important}.art::before,.rule{opacity:1!important;transform:none!important}
+  .draw{stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+
+<template id="mark">
+<svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <circle class="draw" pathLength="1" cx="32" cy="32" r="30"/>
+  <path class="draw" pathLength="1" d="M32 11C24 19 24 28 32 34C40 28 40 19 32 11Z"/>
+  <path class="draw" pathLength="1" d="M32 34C23 33 18 27 17 20C25 20 31 25 32 34Z"/>
+  <path class="draw" pathLength="1" d="M32 34C41 33 46 27 47 20C39 20 33 25 32 34Z"/>
+  <path class="draw" pathLength="1" d="M32 34V53"/>
+  <path class="draw" pathLength="1" d="M32 47C26 47 23 44 22 40C28 40 31 43 32 47Z"/>
+  <path class="draw" pathLength="1" d="M32 47C38 47 41 44 42 40C36 40 33 43 32 47Z"/>
+</svg>
+</template>
+
+<header id="hdr">
+  <a class="logo" href="#top" aria-label="Люме — на главную">
+    <span data-mark></span>
+    <span class="txt"><span class="word">ЛЮМЕ</span><span class="sub">ЦВЕТОЧНАЯ МАСТЕРСКАЯ</span></span>
+  </a>
+  <div class="hright">
+    <div class="meta">
+      <div class="it hours">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <span>Пн–Сб 09:00–21:00 · Вс 10:00–20:00</span>
+      </div>
+      <span class="sep"></span>
+      <a class="it" href="tel:89240000000">
+        <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.1 21 3 13.9 3 5c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>
+        8-924-000-00-00
+      </a>
+    </div>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Заказать</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="petals" aria-hidden="true"></div>
+  <div>
+    <div class="eyebrow">Цветочная мастерская · Москва</div>
+    <h1><span class="ln"><span>Цветы,</span></span><span class="ln"><span>которые говорят</span></span></h1>
+    <p class="lead">Авторские букеты и композиции, собранные вручную. Только свежие цветы и безупречный вкус.</p>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Заказать букет
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="emblem" aria-hidden="true">
+    <div class="ring"></div><div class="ring r2"></div>
+    <span data-mark class="bigwrap" style="display:contents"></span>
+  </div>
+  <div class="scroll">SCROLL <i></i></div>
+</section>
+
+<section class="lang reveal"><div class="lhead"><div><div class="eyebrow">Язык цветов</div><h2>Каждый цветок говорит <em>своё</em></h2></div><p>Выберите цветок и узнайте, что он скажет за вас. Мы поможем подобрать композицию под ваш повод.</p></div><div class="panels"><button class="pn on" style="--c1:#7d3548;--c2:#33161f;--d:0.0s" aria-expanded="true"><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="5"/><circle cx="32" cy="32" r="12"/><circle cx="32" cy="32" r="19"/><path d="M32 13C24 6 12 10 14 20M32 13C40 6 52 10 50 20M51 32C58 24 54 12 44 14M13 32C6 24 10 12 20 14M32 51C24 58 12 54 14 44M32 51C40 58 52 54 50 44"/></svg><span class="vname">Пион</span><span class="pbody"><small>01</small><h3>Пион</h3><b>«Счастливый союз»</b><p>Роскошный и пышный, он обещает радость, достаток и тёплые дни. Для самых важных слов.</p></span></button><button class="pn" style="--c1:#566b59;--c2:#1f2b24;--d:0.15s" aria-expanded="false"><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M20 30C18 18 24 10 32 6C40 10 46 18 44 30C40 38 24 38 20 30Z"/><path d="M26 32C24 22 28 14 32 9C36 14 40 22 38 32"/><path d="M32 38V58M32 50C24 50 20 44 18 40M32 52C40 52 44 46 46 42"/></svg><span class="vname">Тюльпан</span><span class="pbody"><small>02</small><h3>Тюльпан</h3><b>«Нежность и забота»</b><p>Сдержанный и чистый, он говорит без громких слов: «Я рядом». Весенний жест в любое время года.</p></span></button><button class="pn" style="--c1:#a68b5a;--c2:#4a3d27;--d:0.3s" aria-expanded="false"><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 32C26 22 28 12 32 5C36 12 38 22 32 32ZM32 32C40 28 50 28 58 22C54 32 44 38 32 32ZM32 32C40 36 46 46 46 58C38 52 32 44 32 32ZM32 32C24 36 18 46 18 58C26 52 32 44 32 32ZM32 32C24 28 14 28 6 22C10 32 20 38 32 32Z"/><circle cx="32" cy="32" r="2.2"/></svg><span class="vname">Лилия</span><span class="pbody"><small>03</small><h3>Лилия</h3><b>«Чистота и благородство»</b><p>Грациозная и величественная, она наполняет дом светом и неспешным ароматом.</p></span></button><button class="pn" style="--c1:#8c2f3f;--c2:#2e0f16;--d:0.44999999999999996s" aria-expanded="false"><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 32m-3 0a3 3 0 1 1 6 0a6 6 0 1 1-12 0a9 9 0 1 1 18 0a12 12 0 1 1-24 0a15 15 0 1 1 30 0a18 18 0 1 1-36 0"/><path d="M32 52C32 56 34 60 38 62M32 56C26 56 22 54 20 50"/></svg><span class="vname">Роза</span><span class="pbody"><small>04</small><h3>Роза</h3><b>«Глубокое чувство»</b><p>Классика, которая никогда не стареет. Бархатный оттенок для признаний без лишних слов.</p></span></button></div></section>
+
+<section class="feature reveal">
+  <div class="art"><div class="arch a1">
+    <svg viewBox="0 0 300 320" role="img"><title>Розовые пионы</title><defs><linearGradient id="pst" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fa070"/><stop offset="1" stop-color="#4f6139"/></linearGradient><linearGradient id="plf" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5a6c41"/><stop offset="1" stop-color="#9aab78"/></linearGradient><radialGradient id="pgl"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="psh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#5a2a35" flood-opacity=".28"/></filter><linearGradient id="p1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d98a9a"/><stop offset=".55" stop-color="#f2c3c4"/><stop offset="1" stop-color="#fdeee8"/></linearGradient><linearGradient id="p2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#c4607a"/><stop offset=".55" stop-color="#e9a0ab"/><stop offset="1" stop-color="#f9d9d4"/></linearGradient><linearGradient id="p3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#a8405f"/><stop offset=".55" stop-color="#d2788d"/><stop offset="1" stop-color="#f0b5b8"/></linearGradient><linearGradient id="p4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c2f4f"/><stop offset=".55" stop-color="#bf5873"/><stop offset="1" stop-color="#e393a0"/></linearGradient></defs><circle cx="150" cy="140" r="140" fill="url(#pgl)"/><path d="M150,236 C148,270 156,296 150,330" stroke="url(#pst)" stroke-width="5" fill="none" stroke-linecap="round"/><g transform="translate(150,280) rotate(-28) scale(0.78)"><path d="M0,0 C22,-34 78,-46 124,-22 C88,6 32,16 0,0Z" fill="url(#plf)"/><path d="M4,-2 C40,-14 80,-18 118,-21" stroke="#c9d3a8" stroke-opacity=".55" stroke-width="1" fill="none"/><path d="M30,-9 L52,-27 M54,-13 L78,-30 M30,-6 L52,6 M56,-9 L80,2" stroke="#c9d3a8" stroke-opacity=".28" stroke-width=".8" fill="none"/></g><g transform="translate(150,296) rotate(-152) scale(0.7)"><path d="M0,0 C22,-34 78,-46 124,-22 C88,6 32,16 0,0Z" fill="url(#plf)"/><path d="M4,-2 C40,-14 80,-18 118,-21" stroke="#c9d3a8" stroke-opacity=".55" stroke-width="1" fill="none"/><path d="M30,-9 L52,-27 M54,-13 L78,-30 M30,-6 L52,6 M56,-9 L80,2" stroke="#c9d3a8" stroke-opacity=".28" stroke-width=".8" fill="none"/></g><g filter="url(#psh)"><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(0)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(40)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(80)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(120)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(160)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(200)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(240)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(280)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-37.8,-19.2 -48.3,-67.2 -23.1,-89.3 Q0,-103.7 23.1,-89.3 C48.3,-67.2 37.8,-19.2 0,0Z" transform="translate(150,138) rotate(320)" fill="url(#p1)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(20)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(65)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(110)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(155)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(200)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(245)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(290)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-34.2,-16.4 -43.7,-57.4 -20.9,-76.3 Q0,-88.6 20.9,-76.3 C43.7,-57.4 34.2,-16.4 0,0Z" transform="translate(150,138) rotate(335)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(9)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(60.4)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(111.9)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(163.3)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(214.7)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(266.1)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-28.8,-13.2 -36.8,-46.2 -17.6,-61.4 Q0,-71.3 17.6,-61.4 C36.8,-46.2 28.8,-13.2 0,0Z" transform="translate(150,138) rotate(317.6)" fill="url(#p2)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(30)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(90)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(150)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(210)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(270)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-23.4,-10 -29.9,-35 -14.3,-46.5 Q0,-54 14.3,-46.5 C29.9,-35 23.4,-10 0,0Z" transform="translate(150,138) rotate(330)" fill="url(#p3)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-17.1,-6.8 -21.8,-23.8 -10.5,-31.6 Q0,-36.7 10.5,-31.6 C21.8,-23.8 17.1,-6.8 0,0Z" transform="translate(150,138) rotate(0)" fill="url(#p4)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-17.1,-6.8 -21.8,-23.8 -10.5,-31.6 Q0,-36.7 10.5,-31.6 C21.8,-23.8 17.1,-6.8 0,0Z" transform="translate(150,138) rotate(72)" fill="url(#p4)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-17.1,-6.8 -21.8,-23.8 -10.5,-31.6 Q0,-36.7 10.5,-31.6 C21.8,-23.8 17.1,-6.8 0,0Z" transform="translate(150,138) rotate(144)" fill="url(#p4)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-17.1,-6.8 -21.8,-23.8 -10.5,-31.6 Q0,-36.7 10.5,-31.6 C21.8,-23.8 17.1,-6.8 0,0Z" transform="translate(150,138) rotate(216)" fill="url(#p4)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,0 C-17.1,-6.8 -21.8,-23.8 -10.5,-31.6 Q0,-36.7 10.5,-31.6 C21.8,-23.8 17.1,-6.8 0,0Z" transform="translate(150,138) rotate(288)" fill="url(#p4)" stroke="#7a2744" stroke-opacity=".16" stroke-width=".8"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(6)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(46)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(86)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(126)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(166)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(206)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(246)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(286)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M0,-30 C-10,-52 -12,-72 -6,-88" transform="translate(150,138) rotate(326)" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="150" cy="138" r="13" fill="#7a2744" fill-opacity=".55"/><circle cx="149.3" cy="139.5" r="1.8" fill="#e4c07a"/><circle cx="155.3" cy="140.6" r="1.4" fill="#e4c07a"/><circle cx="155.2" cy="140" r="1" fill="#e4c07a"/><circle cx="149.3" cy="138.3" r="1.1" fill="#e4c07a"/><circle cx="141.9" cy="142.2" r="1.1" fill="#e4c07a"/><circle cx="151.2" cy="144.8" r="2.1" fill="#e4c07a"/><circle cx="146.1" cy="136" r="2.2" fill="#e4c07a"/><circle cx="159" cy="140.7" r="1.3" fill="#e4c07a"/><circle cx="150.8" cy="139" r="1.4" fill="#e4c07a"/><circle cx="150.8" cy="136.2" r="1.7" fill="#e4c07a"/><circle cx="147.4" cy="134.9" r="1.7" fill="#e4c07a"/><circle cx="150.6" cy="138.3" r="1.2" fill="#e4c07a"/><circle cx="148" cy="133.7" r="1.4" fill="#e4c07a"/><circle cx="145.7" cy="135.5" r="1.4" fill="#e4c07a"/><circle cx="152.1" cy="130.6" r="1.3" fill="#e4c07a"/><circle cx="144.8" cy="135.4" r="2.1" fill="#e4c07a"/><circle cx="149.6" cy="134.9" r="2.2" fill="#e4c07a"/><circle cx="153.4" cy="141.1" r="1.9" fill="#e4c07a"/><circle cx="153.1" cy="142.4" r="1" fill="#e4c07a"/><circle cx="145.9" cy="130.7" r="1.7" fill="#e4c07a"/><circle cx="152.4" cy="135.6" r="1.8" fill="#e4c07a"/><circle cx="144.7" cy="134.4" r="1.5" fill="#e4c07a"/><circle cx="155.5" cy="129.2" r="1.6" fill="#e4c07a"/><circle cx="149.7" cy="137.4" r="1.8" fill="#e4c07a"/><circle cx="143.4" cy="129.3" r="2" fill="#e4c07a"/><circle cx="149.1" cy="142.1" r="1.8" fill="#e4c07a"/></g></svg>
+  </div></div>
+  <div>
+    <div class="num rv">— 01</div>
+    <div class="rule"></div>
+    <h2 class="rv d1">Только здесь вы найдёте те самые <em>элегантные цветы</em>, чтобы скрасить ваш вечер</h2>
+    <a class="btn dark rv d2" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Заказать</a>
+  </div>
+</section>
+
+<div class="band"><section class="feature alt reveal">
+  <div class="art"><div class="arch a2">
+    <svg viewBox="0 0 300 320" role="img"><title>Букет тюльпанов</title><defs><linearGradient id="tst" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fa070"/><stop offset="1" stop-color="#4f6139"/></linearGradient><linearGradient id="tlf" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5a6c41"/><stop offset="1" stop-color="#9aab78"/></linearGradient><radialGradient id="tgl"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="tsh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#5a2a35" flood-opacity=".28"/></filter><linearGradient id="t1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#a63a58"/><stop offset="1" stop-color="#ec93a6"/></linearGradient><linearGradient id="t2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#dc8c98"/><stop offset="1" stop-color="#fde6df"/></linearGradient><linearGradient id="t3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#cf6f78"/><stop offset="1" stop-color="#f8c9b4"/></linearGradient></defs><circle cx="150" cy="150" r="140" fill="url(#tgl)"/><path d="M150,330 C96,306 60,246 52,160 C92,232 132,276 150,330Z" fill="url(#tlf)"/><path d="M150,330 C206,310 244,252 250,176 C208,240 168,280 150,330Z" fill="url(#tlf)"/><path d="M150,330 C112,300 92,258 90,206 C122,250 142,284 150,330Z" fill="url(#tlf)" opacity=".85"/><path d="M150,326 C100,298 70,240 56,170" stroke="#c9d3a8" stroke-opacity=".4" fill="none"/><path d="M150,326 C204,304 238,250 246,184" stroke="#c9d3a8" stroke-opacity=".4" fill="none"/><path d="M104,196 C96,256 126,306 118,330" stroke="url(#tst)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M198,178 C208,238 174,288 184,330" stroke="url(#tst)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M150,150 C150,210 150,260 150,330" stroke="url(#tst)" stroke-width="5" fill="none" stroke-linecap="round"/><g transform="translate(104,196) rotate(-9) scale(0.9)" filter="url(#tsh)"><path d="M-30,-14 C-40,-52 -22,-82 -6,-100 C-8,-70 -4,-40 6,0 C-10,6 -24,2 -30,-14Z" fill="url(#t2)" opacity=".92"/><path d="M30,-14 C40,-52 22,-82 6,-100 C8,-70 4,-40 -6,0 C10,6 24,2 30,-14Z" fill="url(#t2)" opacity=".92"/><path d="M-27,-10 C-32,-56 -12,-86 0,-104 C12,-86 32,-56 27,-10 C14,5 -14,5 -27,-10Z" fill="url(#t2)" stroke="#7a2744" stroke-opacity=".14" stroke-width=".8"/><path d="M-9,-14 C-14,-48 -7,-76 0,-94" stroke="#fff" stroke-opacity=".4" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M12,-18 C16,-42 12,-62 6,-78" stroke="#fff" stroke-opacity=".18" stroke-width="1" fill="none"/></g><g transform="translate(198,178) rotate(8) scale(0.95)" filter="url(#tsh)"><path d="M-30,-14 C-40,-52 -22,-82 -6,-100 C-8,-70 -4,-40 6,0 C-10,6 -24,2 -30,-14Z" fill="url(#t3)" opacity=".92"/><path d="M30,-14 C40,-52 22,-82 6,-100 C8,-70 4,-40 -6,0 C10,6 24,2 30,-14Z" fill="url(#t3)" opacity=".92"/><path d="M-27,-10 C-32,-56 -12,-86 0,-104 C12,-86 32,-56 27,-10 C14,5 -14,5 -27,-10Z" fill="url(#t3)" stroke="#7a2744" stroke-opacity=".14" stroke-width=".8"/><path d="M-9,-14 C-14,-48 -7,-76 0,-94" stroke="#fff" stroke-opacity=".4" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M12,-18 C16,-42 12,-62 6,-78" stroke="#fff" stroke-opacity=".18" stroke-width="1" fill="none"/></g><g transform="translate(150,150) rotate(0) scale(1.08)" filter="url(#tsh)"><path d="M-30,-14 C-40,-52 -22,-82 -6,-100 C-8,-70 -4,-40 6,0 C-10,6 -24,2 -30,-14Z" fill="url(#t1)" opacity=".92"/><path d="M30,-14 C40,-52 22,-82 6,-100 C8,-70 4,-40 -6,0 C10,6 24,2 30,-14Z" fill="url(#t1)" opacity=".92"/><path d="M-27,-10 C-32,-56 -12,-86 0,-104 C12,-86 32,-56 27,-10 C14,5 -14,5 -27,-10Z" fill="url(#t1)" stroke="#7a2744" stroke-opacity=".14" stroke-width=".8"/><path d="M-9,-14 C-14,-48 -7,-76 0,-94" stroke="#fff" stroke-opacity=".4" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M12,-18 C16,-42 12,-62 6,-78" stroke="#fff" stroke-opacity=".18" stroke-width="1" fill="none"/></g></svg>
+  </div></div>
+  <div>
+    <div class="num rv">— 02</div>
+    <div class="rule"></div>
+    <h2 class="rv d1">Порадуйте своих любимых <em>невероятно красивым</em> букетом</h2>
+    <a class="btn dark rv d2" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Заказать</a>
+  </div>
+</section></div>
+
+<section class="feature reveal">
+  <div class="art"><div class="arch a3">
+    <svg viewBox="0 0 300 320" role="img"><title>Белые лилии</title><defs><linearGradient id="lst" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fa070"/><stop offset="1" stop-color="#4f6139"/></linearGradient><linearGradient id="llf" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5a6c41"/><stop offset="1" stop-color="#9aab78"/></linearGradient><radialGradient id="lgl"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="lsh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#5a2a35" flood-opacity=".28"/></filter><linearGradient id="l1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d9d79a"/><stop offset=".3" stop-color="#fffaf0"/><stop offset=".8" stop-color="#fdf3ea"/><stop offset="1" stop-color="#f6dcdc"/></linearGradient><linearGradient id="l2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#cfcf8c"/><stop offset=".3" stop-color="#f6ecd9"/><stop offset=".85" stop-color="#f2e3d6"/><stop offset="1" stop-color="#ecc9cd"/></linearGradient></defs><circle cx="150" cy="140" r="140" fill="url(#lgl)"/><path d="M150,228 C148,262 154,298 150,330" stroke="url(#lst)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M150,250 C170,236 196,216 214,198" stroke="url(#lst)" stroke-width="3.5" fill="none" stroke-linecap="round"/><g transform="translate(214,198) rotate(36)"><path d="M0,0 C-12,-14 -13,-42 0,-62 C13,-42 12,-14 0,0Z" fill="url(#l2)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,-4 L0,-54" stroke="#d9c9a0" stroke-width="1"/><path d="M0,0 C-6,-8 -6,-12 0,-16 C6,-12 6,-8 0,0Z" fill="#9aab78"/></g><g transform="translate(150,288) rotate(-20) scale(0.75)"><path d="M0,0 C22,-34 78,-46 124,-22 C88,6 32,16 0,0Z" fill="url(#llf)"/><path d="M4,-2 C40,-14 80,-18 118,-21" stroke="#c9d3a8" stroke-opacity=".55" stroke-width="1" fill="none"/><path d="M30,-9 L52,-27 M54,-13 L78,-30 M30,-6 L52,6 M56,-9 L80,2" stroke="#c9d3a8" stroke-opacity=".28" stroke-width=".8" fill="none"/></g><g transform="translate(150,300) rotate(-160) scale(0.7)"><path d="M0,0 C22,-34 78,-46 124,-22 C88,6 32,16 0,0Z" fill="url(#llf)"/><path d="M4,-2 C40,-14 80,-18 118,-21" stroke="#c9d3a8" stroke-opacity=".55" stroke-width="1" fill="none"/><path d="M30,-9 L52,-27 M54,-13 L78,-30 M30,-6 L52,6 M56,-9 L80,2" stroke="#c9d3a8" stroke-opacity=".28" stroke-width=".8" fill="none"/></g><g filter="url(#lsh)"><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" transform="translate(150,132) rotate(30) scale(1.05)" fill="url(#l2)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" transform="translate(150,132) rotate(150) scale(1.05)" fill="url(#l2)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" transform="translate(150,132) rotate(270) scale(1.05)" fill="url(#l2)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><g transform="translate(150,132) rotate(0)"><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" fill="url(#l1)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,-6 C-1,-40 0,-70 0,-96" stroke="#d9c9a0" stroke-width="1.2" fill="none"/><path d="M-4,-10 C-14,-38 -14,-62 -6,-90 M4,-10 C14,-38 14,-62 6,-90" stroke="#fff" stroke-opacity=".6" stroke-width="1" fill="none"/><circle cx="-0.6" cy="-15" r="1.1" fill="#c0566f" fill-opacity=".75"/><circle cx="-6.7" cy="-19.4" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="-3.8" cy="-19.9" r="1.3" fill="#c0566f" fill-opacity=".75"/><circle cx="-2.7" cy="-54.1" r="1.3" fill="#c0566f" fill-opacity=".75"/><circle cx="3.9" cy="-39.3" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="-1.5" cy="-53.7" r="1.3" fill="#c0566f" fill-opacity=".75"/><circle cx="4.8" cy="-30.5" r="1.8" fill="#c0566f" fill-opacity=".75"/><circle cx="-4.8" cy="-20.9" r="1.1" fill="#c0566f" fill-opacity=".75"/><circle cx="-0.2" cy="-24.7" r="1.4" fill="#c0566f" fill-opacity=".75"/><circle cx="-6.7" cy="-26.1" r="1.3" fill="#c0566f" fill-opacity=".75"/><circle cx="0.8" cy="-31" r="1.8" fill="#c0566f" fill-opacity=".75"/></g><g transform="translate(150,132) rotate(120)"><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" fill="url(#l1)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,-6 C-1,-40 0,-70 0,-96" stroke="#d9c9a0" stroke-width="1.2" fill="none"/><path d="M-4,-10 C-14,-38 -14,-62 -6,-90 M4,-10 C14,-38 14,-62 6,-90" stroke="#fff" stroke-opacity=".6" stroke-width="1" fill="none"/><circle cx="0.1" cy="-45.8" r="1.5" fill="#c0566f" fill-opacity=".75"/><circle cx="-3.9" cy="-45.1" r="1.7" fill="#c0566f" fill-opacity=".75"/><circle cx="2.8" cy="-49.9" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="-1.2" cy="-32" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-4" cy="-43.2" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-4.8" cy="-23.6" r="1.2" fill="#c0566f" fill-opacity=".75"/><circle cx="-7.9" cy="-16.4" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-2.1" cy="-18.7" r="0.9" fill="#c0566f" fill-opacity=".75"/><circle cx="0.7" cy="-54.2" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-2.1" cy="-25.6" r="1.2" fill="#c0566f" fill-opacity=".75"/><circle cx="5.3" cy="-19.7" r="1.8" fill="#c0566f" fill-opacity=".75"/></g><g transform="translate(150,132) rotate(240)"><path d="M0,0 C-26,-18 -38,-62 -7,-104 Q0,-113 7,-104 C38,-62 26,-18 0,0Z" fill="url(#l1)" stroke="#d6c39b" stroke-opacity=".5" stroke-width=".8"/><path d="M0,-6 C-1,-40 0,-70 0,-96" stroke="#d9c9a0" stroke-width="1.2" fill="none"/><path d="M-4,-10 C-14,-38 -14,-62 -6,-90 M4,-10 C14,-38 14,-62 6,-90" stroke="#fff" stroke-opacity=".6" stroke-width="1" fill="none"/><circle cx="-0.2" cy="-35.4" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-2.4" cy="-18.7" r="1.1" fill="#c0566f" fill-opacity=".75"/><circle cx="-2.4" cy="-52.1" r="0.9" fill="#c0566f" fill-opacity=".75"/><circle cx="0.2" cy="-57.7" r="1" fill="#c0566f" fill-opacity=".75"/><circle cx="-4.8" cy="-39" r="1.4" fill="#c0566f" fill-opacity=".75"/><circle cx="1.9" cy="-59" r="1.5" fill="#c0566f" fill-opacity=".75"/><circle cx="-1.8" cy="-26" r="1.1" fill="#c0566f" fill-opacity=".75"/><circle cx="0.2" cy="-49.5" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="-3.5" cy="-29.2" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="1.8" cy="-59.3" r="1.6" fill="#c0566f" fill-opacity=".75"/><circle cx="1.7" cy="-51.6" r="1.1" fill="#c0566f" fill-opacity=".75"/></g><g transform="translate(150,132) rotate(15)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(75)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(135)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(195)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(255)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(315)"><path d="M0,0 L0,-40" stroke="#e5d6a7" stroke-width="1.6"/><ellipse cx="0" cy="-42" rx="3.2" ry="8" fill="#b5702f"/></g><g transform="translate(150,132) rotate(-8)"><path d="M0,0 L0,-52" stroke="#d6d09a" stroke-width="2"/><circle cx="0" cy="-54" r="3.6" fill="#c0566f"/></g></g></svg>
+  </div></div>
+  <div>
+    <div class="num rv">— 03</div>
+    <div class="rule"></div>
+    <h2 class="rv d1">Дополните интерьер <em>грациозными композициями</em> и придайте живой вид вашему жилищу</h2>
+    <a class="btn dark rv d2" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Заказать</a>
+  </div>
+</section>
+</main>
+
+<footer id="foot">
+  <div class="cta">
+    <h3>Создадим букет, который <em>запомнится</em></h3>
+    <p>Расскажите, для кого и по какому поводу — мы соберём композицию и свяжемся с вами в ближайшее время.</p>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfZgQ8dSPqcZLv2kF5yvtQbFHNDKG3kWzPTGIsslMXHfX4EFA/viewform?usp=dialog" target="_blank" rel="noopener">Оставить заявку
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="fgrid">
+    <div class="fcol stag">
+      <a class="logo" href="#top" aria-label="Люме"><span data-mark></span>
+        <span class="txt"><span class="word">ЛЮМЕ</span><span class="sub">ЦВЕТОЧНАЯ МАСТЕРСКАЯ</span></span></a>
+      <p class="tag">Цветы, которые говорят</p>
+    </div>
+    <div class="fcol stag"><h4>Адрес</h4><p>г. Москва,<br>ул. Дзержинского, дом 13</p></div>
+    <div class="fcol stag"><h4>Горячая линия</h4><a href="tel:89240000000">8-924-000-00-00</a></div>
+    <div class="fcol stag"><h4>Время работы</h4><p>Пн–Сб 09:00–21:00<br>Вс 10:00–20:00</p></div>
+  </div>
+  <div class="fbot"><span>© ЛЮМЕ — ЦВЕТОЧНАЯ МАСТЕРСКАЯ</span><span>МОСКВА</span></div>
+  <div class="fbig" aria-hidden="true">ЛЮМЕ</div>
+</footer>
+
+<script>
+(function(){
+  var tpl=document.getElementById('mark').innerHTML;
+  document.querySelectorAll('[data-mark]').forEach(function(el){
+    el.outerHTML=tpl;
+  });
+  var big=document.querySelector('.bigwrap');
+  var em=document.querySelector('.emblem');
+  if(em){var s=em.querySelector('svg.mark');if(s)s.classList.replace('mark','big');}
+  var hs=document.querySelectorAll('.hero .emblem svg');
+
+  // petals
+  var box=document.querySelector('.petals');
+  for(var i=0;i<14;i++){
+    var p=document.createElement('i');p.className='petal';
+    p.style.left=(Math.random()*100)+'%';
+    p.style.setProperty('--dx',(Math.random()*160-80)+'px');
+    p.style.animationDuration=(12+Math.random()*12)+'s';
+    p.style.animationDelay=(-Math.random()*20)+'s';
+    p.style.transform='scale('+(.6+Math.random()*.9)+')';
+    box.appendChild(p);
+  }
+
+  // reveal
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.2});
+  document.querySelectorAll('.reveal,footer').forEach(function(el){io.observe(el);});
+
+  // flower language panels
+  var pns=[].slice.call(document.querySelectorAll('.pn'));
+  function openPn(p){pns.forEach(function(x){var on=x===p;x.classList.toggle('on',on);x.setAttribute('aria-expanded',on);});}
+  pns.forEach(function(p){
+    p.addEventListener('mouseenter',function(){if(window.matchMedia('(hover:hover)').matches)openPn(p);});
+    p.addEventListener('click',function(){openPn(p);});
+    p.addEventListener('focus',function(){openPn(p);});
+  });
+
+  // header + parallax
+  var hdr=document.getElementById('hdr');
+  var arts=[].slice.call(document.querySelectorAll('.arch'));
+  var bigEl=document.querySelector('.emblem .big');
+  var ticking=false;
+  function upd(){
+    hdr.classList.toggle('scrolled',window.scrollY>40);
+    var vh=window.innerHeight;
+    arts.forEach(function(a){
+      var r=a.getBoundingClientRect();
+      if(r.bottom<0||r.top>vh)return;
+      var k=(r.top+r.height/2-vh/2)/vh;
+      a.querySelector('svg').style.setProperty('--py',(k*-26)+'px');
+    });
+    if(bigEl)bigEl.style.setProperty('--py',(window.scrollY*.12)+'px');
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+  upd();
+})();
+</script>
+</body>
+</html>
